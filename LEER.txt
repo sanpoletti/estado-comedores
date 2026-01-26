@@ -1,0 +1,2 @@
+para ejecutarlo poner:
+C:\php83\php artisan serve
