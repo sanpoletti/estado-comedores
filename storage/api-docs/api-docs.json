@@ -1,0 +1,105 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Estado de Comedores",
+        "description": "API REST para consultar el estado y las raciones diarias de comedores comunitarios",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/v1/estado-comedores": {
+            "get": {
+                "tags": [
+                    "Estado Comedores"
+                ],
+                "summary": "Obtiene el estado de los comedores",
+                "description": "Devuelve el estado y las raciones de uno o todos los comedores.\n     *     Si no se envía el parámetro nroreg, devuelve todos.\n     *     \n     *     Interpretación de valores de raciones:\n     *     \n     *     Valor -1:\n     *     El comedor no brinda ese servicio.\n     *     \n     *     Valor 0:\n     *     El servicio se brinda, pero no quedan raciones disponibles.\n     *     \n     *     Valor mayor a 0:\n     *     Cantidad de raciones disponibles.",
+                "operationId": "28410d8481fc011736a1c61a578565fd",
+                "parameters": [
+                    {
+                        "name": "nroreg",
+                        "in": "query",
+                        "description": "Número de registro del comedor. Si no se envía, se listan todos.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1
+                        },
+                        "example": 123
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Listado de comedores",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/EstadoComedor"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Parámetros inválidos"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "EstadoComedor": {
+                "description": "Estado y raciones diarias de un comedor",
+                "properties": {
+                    "nroregistro": {
+                        "type": "integer",
+                        "example": 1093
+                    },
+                    "grupo": {
+                        "type": "string",
+                        "example": "21 DE SEPTIEMBRE"
+                    },
+                    "estado_grupo": {
+                        "type": "string",
+                        "enum": [
+                            "VIGENTE",
+                            "SUSPENDIDO",
+                            "CERRADO",
+                            "EN RECESO"
+                        ],
+                        "example": "VIGENTE"
+                    },
+                    "desayuno": {
+                        "description": "-1: no brinda el servicio · 0: no quedan raciones · >0: raciones disponibles",
+                        "type": "integer",
+                        "example": -1
+                    },
+                    "almuerzo": {
+                        "description": "-1: no brinda el servicio · 0: no quedan raciones · >0: raciones disponibles",
+                        "type": "integer",
+                        "example": -1
+                    },
+                    "merienda": {
+                        "description": "-1: no brinda el servicio · 0: no quedan raciones · >0: raciones disponibles",
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "cena": {
+                        "description": "-1: no brinda el servicio · 0: no quedan raciones · >0: raciones disponibles",
+                        "type": "integer",
+                        "example": 0
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Estado Comedores",
+            "description": "Estado Comedores"
+        }
+    ]
+}
