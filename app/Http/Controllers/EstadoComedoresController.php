@@ -10,16 +10,23 @@ class EstadoComedoresController extends Controller
 {
     public function show(Request $request)
     {
-        $idHogar   = $request->query('idHogar');
-        $tipoGrupo = $request->query('tipoGrupo');
+        // Validación solo si viene el parámetro
+        $request->validate([
+            'nroreg' => 'nullable|integer|min:1',
+        ]);
 
-        if ($idHogar === null && $tipoGrupo === null) {
-            // Ejecuta el SP sin parámetros (equivale a: EXEC _Grupos)
-            $resultado = DB::select('EXEC _Grupos');
-        } else {
+        $nroreg = $request->query('nroreg');
+
+        if ($nroreg) {
+            // Consulta filtrada
             $resultado = DB::select(
-                'EXEC _Grupos @IDHOGAR = ?, @tGrupo = ?',
-                [$idHogar ?? 0, $tipoGrupo ?? 0]
+                'EXEC _Grupos @nroreg = ?, @IDHOGAR = 0, @tGrupo = 0',
+                [$nroreg]
+            );
+        } else {
+            // Consulta sin filtro → todos los comedores
+            $resultado = DB::select(
+                'EXEC _Grupos @nroreg = 0, @IDHOGAR = 0, @tGrupo = 0'
             );
         }
 
