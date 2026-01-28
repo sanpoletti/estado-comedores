@@ -39,7 +39,8 @@ return [
                  * Set this to `json` or `yaml` to determine which documentation file to use in UI
                  */
                 'format_to_use_for_docs' => env('L5_FORMAT_TO_USE_FOR_DOCS', 'json'),
-
+                
+                'docs' => storage_path('api-docs'),
                 /*
                  * Absolute paths to directory containing the swagger annotations are stored.
                  */
